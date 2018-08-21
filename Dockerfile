@@ -42,5 +42,6 @@ USER pptruser
 WORKDIR /home/pptruser
 RUN cd server && npm install
 
+EXPOSE 3000
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "/home/pptruser/server/server.js"]
