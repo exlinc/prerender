@@ -25,7 +25,7 @@ app.get('*', async (req, res) => {
 
     } catch(e) {
         console.log(e);
-        res.send("ERROR");
+        res.status(500).send("ERROR");
     }
 });
 
