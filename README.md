@@ -17,7 +17,7 @@ You can also run it locally (assuming you have google chrome installed)
 ```bash
 git clone https://github.com/exlinc/prerender
 cd prerender
-# You must install yarn for this project, if you don't already have it, run: sudo npm install -g yarn
+# You must install yarn for this project, if you don't already have it, run: npm install -g yarn
 yarn install
 yarn start
 ```
