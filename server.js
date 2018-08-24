@@ -3,11 +3,7 @@ const app = express();
 const puppeteer = require('puppeteer');
 
 const port = 3000;
-
-const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--disable-dev-shm-usage']
-});
+let browser = null;
 
 const sanitizePage = () => {
     const elements = document.querySelectorAll('script, link[rel=import]');
@@ -38,6 +34,10 @@ app.get('*', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
+    browser = await puppeteer.launch({
+        headless: true,
+        args: ['--disable-dev-shm-usage']
+    });
     console.log(`Web server is running at port ${port}`);
 });
