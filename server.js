@@ -21,13 +21,17 @@ app.get('*', async (req, res) => {
             waitUntil: "networkidle0",
         });
         
-        await page.evaluate(sanitizePage)
+        await page.evaluate(sanitizePage);
 
         const html = await page.evaluate(() => {
             return document.documentElement.innerHTML;
         });
 
         res.send(html);
+
+	// Clean up the tab
+	await page.goto('about:blank')
+	await page.close();
     } catch(e) {
         console.log(e);
         res.status(500).send("ERROR");
