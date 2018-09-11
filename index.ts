@@ -3,12 +3,10 @@ import {PrerenderCachedServer} from "./lib/PrerenderCachedServer";
 import {PrerenderLiveServer} from "./lib/PrerenderLiveServer";
 
 const args = process.argv.slice(2);
-
-const port = 3000;
-const prerenderRegex = new RegExp('.*exlskills\\.com\\/learn.*');
-const indexURL = 'https://exlskills.com/learn-en/dashboard';
-const outputDirectory = "./demo-output";
-const workerCount = 3;
+const prerenderRegex = new RegExp(process.env.PR_WHITELIST_REGEX || '.*');
+const indexURL = process.env.PR_INDEX_URL;
+const outputDirectory = "./cached-output" || process.env.PR_OUT_DIR;
+const workerCount = parseInt(process.env.PR_WORKERS) || 2;
 
 console.log("Prerender starting with args: ", args);
 
@@ -23,11 +21,7 @@ switch (args[0]) {
         lServer.serve();
         break;
     case 'serve-cached':
-        if (args.length != 2) {
-            console.error("Invalid command args count");
-            break
-        }
-        const pServer = new PrerenderCachedServer(args[1]);
+        const pServer = new PrerenderCachedServer(process.env.PR_CACHE_DIR || './cached-output');
         console.info("Starting cached server");
         pServer.serve();
         break;

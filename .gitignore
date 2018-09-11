@@ -3,5 +3,5 @@ node_modules
 .env
 *.js
 *.js.map
-demo-output
 .idea
+cached-output

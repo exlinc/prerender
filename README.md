@@ -7,10 +7,10 @@ The EXL Inc. `prerender` server offers a simple configuration-free Dockerized se
 The easiest way is to get started with the prebuilt docker image:
 
 ```bash
-docker run --rm -it -p 3000:3000 exlinc/prerender
+docker run --cap-add SYS_ADMIN --rm -it -p 3000:3000 exlinc/prerender
 ```
 
-This will run the server on port 3000 on your machine.
+This will run the server on port 3000 on your machine. The `SYS_ADMIN` capability is required for the puppeteer (Chromium) rendering process.
 
 You can also run it locally (assuming you have google chrome installed)
 

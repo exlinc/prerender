@@ -25,10 +25,13 @@ RUN chmod +x /usr/local/bin/dumb-init
 #     browser.launch({executablePath: 'google-chrome-unstable'})
 # ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
+# Install typescript for building the project
+RUN npm i -g typescript
+
 # Install puppeteer so it's available in the container.
 RUN npm i puppeteer
 
-COPY . /home/pptruser/server
+COPY . /home/pptruser/prerender
 
 # Add user so we don't need --no-sandbox.
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
@@ -39,9 +42,11 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 # Run everything after as non-privileged user.
 USER pptruser
 
+ENV PR_CACHE_DIR="/home/pptruser/prerender/cached-output"
+
 WORKDIR /home/pptruser
-RUN cd server && npm install
+RUN cd prerender && yarn install && tsc
 
 EXPOSE 3000
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", "/home/pptruser/server/server.js"]
+CMD ["node", "/home/pptruser/prerender/index.js", "serve-live"]
