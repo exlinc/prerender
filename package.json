@@ -1,6 +1,6 @@
 {
-  "name": "exlpre",
-  "version": "1.0.0",
+  "name": "@exlinc/prerender",
+  "version": "2.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -11,5 +11,9 @@
   "dependencies": {
     "express": "^4.16.3",
     "puppeteer": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^1.6.3",
+    "@types/express": "^4.11.1"
   }
 }
