@@ -2,9 +2,23 @@
 
 The EXL Inc. `prerender` server offers a simple configuration-free Dockerized server for prerendering single page apps for search engines, bots, and other automated systems that suck at/cannot render SPAs properly. The server uses `puppeteer` (which in turn uses headless google chrome) to actually render the pages.
 
+## Features
+
+* Crawl and save entire site ahead of time -- this will give you significantly higher ranking due to super fast page load times
+
+* Serve prerendered (cached) site
+
+* Serve live -- this is the most expensive option as it will run the render process each time it receives a request
+
+## Roadmap
+
+* Add option to render on the fly when a request for a whitelisted page arrives but it is not found in the cache (right now the search engine would get a 404)
+
+* Add option to continuously update the cache on a schedule (right now this is typically done by rebuilding the docker image with a cron job)
+
 ## Running
 
-The easiest way is to get started with the prebuilt docker image:
+The easiest way is to get started with the prebuilt docker image running the live server (slowest option, but zero configuration required!):
 
 ```bash
 docker run --cap-add SYS_ADMIN --rm -it -p 3000:3000 exlinc/prerender
@@ -112,4 +126,8 @@ server {
 
 ## Using in production
 
-We use this project in production, however, keep in mind that it is in it's early stages and may not support all edge cases. Also note that when you run this in production, you should allocate at least 1vCPU and 1GB to 1.5GB of RAM per prerender container, otherwise chrome is unlikely to have enough resources to properly render your pages (assuming you have a realistic ReactJS/AngularJS/VueJS application that loads resources and renders a substantial application). The containers may also crash due to chrome errors/load, so we recommend that you run them with some sort of an auto-restart functionality (such as on AWS ECS or kubernetes). 
+We use this project in production, however, keep in mind that it is in it's early stages and may not support all edge cases.
+
+## Planning resource usage for live/on-the-fly rendering
+
+When using an option that renders in real time, you should allocate at least 1vCPU and 1GB to 1.5GB of RAM per prerender container, otherwise chrome is unlikely to have enough resources to properly render your pages (assuming you have a realistic ReactJS/AngularJS/VueJS application that loads resources and renders a substantial application). The containers may also crash due to chrome errors/load, so we recommend that you run them with some sort of an auto-restart functionality (such as on AWS ECS or kubernetes).

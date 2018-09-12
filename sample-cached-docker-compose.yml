@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  prerender:
+    container_name: prerender-caching
+    image: "exlinc/prerender"
+    environment:
+    - PR_WHITELIST_REGEX=.*exlskills\.com\/learn.*
+    - PR_INDEX_URL=https://exlskills.com/learn-en/dashboard
+    - PR_WORKERS=4
+    entrypoint: dumb-init -- node /home/pptruser/prerender/index.js prerender
+    cap_add:
+    - SYS_ADMIN

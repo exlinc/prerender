@@ -26,22 +26,23 @@ switch (args[0]) {
         pServer.serve();
         break;
     case 'prerender':
-        console.info("Starting prerender command")
+        console.info("Starting prerender command");
         const prerenderer = new PrerenderCrawler(indexURL, prerenderRegex, outputDirectory, workerCount);
-        console.debug("Instantiated crawler")
+        console.debug("Instantiated crawler");
         prerenderer.setup().then(() => {
-            console.info("Crawler setup complete. Starting prerendering")
+            console.info("Crawler setup complete. Starting prerendering");
             prerenderer.prerender((completedPages, failedPages) => {
                 console.log("Completed pages count: ", completedPages.length);
                 console.log("Failed pages (url: error):\n\n", failedPages);
+                process.exit(Object.keys(failedPages).length == 0 ? 0 : 1);
             }).then(() => {
                 console.log("Successfully started crawling ...");
             }).catch(err => {
                 console.error("Error crawling: ", err);
             });
         }).catch(err => {
-            console.error("Error setting up prerenderer: ", err)
-        })
+            console.error("Error setting up prerenderer: ", err);
+        });
         break;
     default:
         console.error("Unknown/invalid command: ", args[0])
