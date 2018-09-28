@@ -5,7 +5,7 @@ import {PrerenderLiveServer} from "./lib/PrerenderLiveServer";
 const args = process.argv.slice(2);
 const prerenderRegex = new RegExp(process.env.PR_WHITELIST_REGEX || '.*');
 const indexURL = process.env.PR_INDEX_URL;
-const outputDirectory = "./cached-output" || process.env.PR_OUT_DIR;
+const outputDirectory = process.env.PR_OUT_DIR || "./cached-output";
 const workerCount = parseInt(process.env.PR_WORKERS) || 2;
 
 console.log("Prerender starting with args: ", args);
