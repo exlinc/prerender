@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as path from 'path';
 
-export class PrerenderCachedServer {
+export class PrerenderMetaServer {
     private app = express();
     private readonly absDir: string;
     private readonly port: number;
@@ -9,15 +9,15 @@ export class PrerenderCachedServer {
     constructor(dir: string, port: number) {
         this.absDir = path.resolve(dir);
         this.port = port;
-        this.app.get('*', this.handler);
+        this.app.get('/sitemap.xml', this.sitemapHandler);
     }
 
-    handler = async (req, res) => {
+    sitemapHandler = async (req, res) => {
         try {
-            res.setHeader("Content-Type", "text/html; charset=utf-8")
-            res.sendFile(path.join(this.absDir, req.originalUrl.substring(1).replace(/^(http:\/\/|https:\/\/)/,"")+".cached"));
+            res.setHeader("Content-Type", "text/xml; charset=utf-8")
+            res.sendFile(path.join(this.absDir, 'sitemap.xml'));
         } catch(e) {
-            console.error("Cached prerender server error: ", e);
+            console.error("Meta prerender server error: ", e);
             res.status(404).send("Not found");
         }
     }

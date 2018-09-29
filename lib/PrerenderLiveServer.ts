@@ -7,7 +7,7 @@ export class PrerenderLiveServer {
     private browser = null;
     private readonly port: number;
 
-    constructor(port = 3000) {
+    constructor(port: number) {
         this.port = port;
         this.app.get('*', this.handler);
     }

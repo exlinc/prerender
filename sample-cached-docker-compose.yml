@@ -7,6 +7,8 @@ services:
     environment:
     - PR_WHITELIST_REGEX=.*exlskills\.com\/learn.*
     - PR_INDEX_URL=https://exlskills.com/learn-en/dashboard
+    - PR_CACHE_DIR=/home/pptruser/cached-output
+    - PR_META_DIR=/home/pptruser/meta-output
     - PR_WORKERS=4
     entrypoint: dumb-init -- node /home/pptruser/prerender/index.js prerender
     cap_add:
