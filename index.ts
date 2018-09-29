@@ -6,6 +6,7 @@ const args = process.argv.slice(2);
 const prerenderRegex = new RegExp(process.env.PR_WHITELIST_REGEX || '.*');
 const indexURL = process.env.PR_INDEX_URL;
 const outputDirectory = process.env.PR_OUT_DIR || "./cached-output";
+const metaOutDirectory = process.env.PR_OUT_META_DIR || './meta-output';
 const workerCount = parseInt(process.env.PR_WORKERS) || 2;
 
 console.log("Prerender starting with args: ", args);
@@ -27,12 +28,12 @@ switch (args[0]) {
         break;
     case 'prerender':
         console.info("Starting prerender command");
-        const prerenderer = new PrerenderCrawler(indexURL, prerenderRegex, outputDirectory, workerCount);
+        const prerenderer = new PrerenderCrawler(indexURL, prerenderRegex, outputDirectory, metaOutDirectory, workerCount);
         console.debug("Instantiated crawler");
         prerenderer.setup().then(() => {
             console.info("Crawler setup complete. Starting prerendering");
             prerenderer.prerender((completedPages, failedPages) => {
-                console.log("Completed pages count: ", completedPages.length);
+                console.log("Completed pages count: ", Object.keys(completedPages).length);
                 console.log("Failed pages (url: error):\n\n", failedPages);
                 process.exit(Object.keys(failedPages).length == 0 ? 0 : 1);
             }).then(() => {
