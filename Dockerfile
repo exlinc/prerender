@@ -42,8 +42,6 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 # Run everything after as non-privileged user.
 USER pptruser
 
-ENV PR_CACHE_DIR="/home/pptruser/prerender/cached-output"
-
 WORKDIR /home/pptruser
 RUN cd prerender && yarn install && tsc
 

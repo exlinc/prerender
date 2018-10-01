@@ -2,7 +2,7 @@
 docker-compose -f sample-cached-docker-compose.yml up
 
 docker commit \
-    -c 'ENTRYPOINT ["dumb-init", "--", "node", "/home/pptruser/prerender/index.js", "serve-cached"]' \
+    -c 'ENTRYPOINT ["dumb-init", "--", "node", "/home/pptruser/prerender/index.js", "serve-all-saved"]' \
     prerender-caching \
     exlinc/prerender:cached-latest
 
