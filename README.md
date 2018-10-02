@@ -6,7 +6,11 @@ The EXL Inc. `prerender` server offers a simple configuration-free Dockerized se
 
 * Crawl and save entire site ahead of time -- this will give you significantly higher ranking due to super fast page load times
 
+* Automatically generate a `sitemap.xml` file with all indexed pages. This is used by search engines to help speed up indexing
+
 * Serve prerendered (cached) site
+
+* Serve cached metadata (`sitemap.xml`)
 
 * Serve live -- this is the most expensive option as it will run the render process each time it receives a request
 
@@ -59,6 +63,11 @@ server {
 
     root  /usr/share/nginx/html;
     index /index.html;
+    
+    location /sitemap.xml {
+        # NOTE: The prerender container is linked to the nginx container in docker
+        proxy_pass http://prerender:5000;
+    }
 
     location / {
         try_files $uri @botexl;
@@ -81,9 +90,7 @@ server {
         if ($prerender = 1) {
             rewrite .* /$scheme://$host$request_uri? break;
             # NOTE: This assumes that the prerender container is linked to the nginx container in docker
-            proxy_pass http://prerender:3000;
-            # NOTE: You can use this for localhost, and then comment out the above proxy_pass and uncomment the one below
-            proxy_pass http://localhost:3000;
+            proxy_pass http://prerender:4000;
         }
         if ($prerender = 0) {
             rewrite .* /learn/index.html break;
