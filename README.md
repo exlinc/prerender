@@ -48,6 +48,29 @@ Once you have the server running you can call it like this (assuming it's runnin
 
 If you go into your browser and navigate to, `http://localhost:3000/http://example.com/`, for example, you will get a prerendered version of that page. You can replace `http://example.com/` with your site's address and you will get the prerendered page.
 
+## Building up your cached site
+
+To build an image with a cache built in (for easy distribution on ECS/K8s), you can check out the `sample-cached-docker-compose.yml` file and the `sample-cached-build.sh` script. This sample will render and write to an image all of the pages that it is directed to index based on the `PR_WHITELIST_REGEX` starting at the `PR_INDEX_URL`. It will output a ready-to-run image called `exlinc/prerender:cached-latest` (you change the name in the script later) that will have all of your data ready for serving.
+
+## Run a cached site image
+
+Assuming the name of your cached image is `exlinc/prerender:cached-latest`, as is the default, it would look something like this:
+
+```bash
+# Port 4000 serves the cached pages
+# Port 5000 serves the metadata (sitemap.xml)
+docker run --rm -d -p 4000:4000 -p 5000:5000 exlinc/prerender:cached-latest
+```
+
+And you can test it out like this:
+
+```bash
+# Get your sitemap.xml
+curl http://localhost:5000/sitemap.xml
+# Get a page (must be in the cache)
+curl http://localhost:4000/https://exlskills.com/learn-en/dashboard
+```
+
 ## Setup behind nginx
 
 This is an example HTTP nginx config that runs behind an SSL-terminating load balancer (like AWS ALB). However, you can easily add HTTPS to the config via the letsencrypt bot or just by manually inserting and configuring the certs+listener.
