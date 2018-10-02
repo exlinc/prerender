@@ -1,3 +1,5 @@
+[![Docker Automated build](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)](https://hub.docker.com/r/exlinc/prerender/)
+
 # Prerender Single Page Apps (ReactJS, AngularJS, VueJS) for SEO
 
 The EXL Inc. `prerender` server offers a simple configuration-free Dockerized server for prerendering single page apps for search engines, bots, and other automated systems that suck at/cannot render SPAs properly. The server uses `puppeteer` (which in turn uses headless google chrome) to actually render the pages.
