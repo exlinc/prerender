@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.16.3",
-    "puppeteer": "^1.7.0"
+    "puppeteer": "^1.13.0"
   },
   "devDependencies": {
     "@types/puppeteer": "^1.6.3",
