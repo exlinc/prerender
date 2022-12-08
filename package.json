@@ -9,7 +9,7 @@
   "author": "EXL Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "puppeteer": "^1.7.0"
   },
   "devDependencies": {
